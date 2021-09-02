@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 _moveInput;
 
+    private Rigidbody2D _rigidbody2D;
+    
     private void OnEnable()
     {
         playerInput.onActionTriggered += OnActionTriggered;
@@ -28,6 +30,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _rigidbody2D = GetComponent<Rigidbody2D>();
+        
         _gameInput = new GameInput();
     }
 
@@ -36,7 +40,12 @@ public class PlayerController : MonoBehaviour
     {
         
     }
-    
+
+    private void FixedUpdate()
+    {
+        _rigidbody2D.AddForce(_moveInput * velocidade);
+    }
+
     private void OnActionTriggered(InputAction.CallbackContext obj)
     {
         if (obj.action.name == _gameInput.Gameplay.Move.name)
